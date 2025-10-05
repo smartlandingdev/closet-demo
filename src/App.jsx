@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import BottomNav from './components/BottomNav';
+import Home from './pages/Home';
+import Closet from './pages/Closet';
+import AILooks from './pages/AILooks';
+import Marketplace from './pages/Marketplace';
+import Community from './pages/Community';
+import Profile from './pages/Profile';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentPage, setCurrentPage] = useState('home');
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowSplash(false);
+    }, 2500);
+  }, []);
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'home':
+        return <Home onNavigate={setCurrentPage} />;
+      case 'closet':
+        return <Closet />;
+      case 'ai-looks':
+        return <AILooks />;
+      case 'marketplace':
+        return <Marketplace />;
+      case 'community':
+        return <Community />;
+      case 'profile':
+        return <Profile />;
+      default:
+        return <Home onNavigate={setCurrentPage} />;
+    }
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      {showSplash && (
+        <div className="splash-screen">
+          <div className="splash-logo" style={{ fontFamily: 'Pacifico, cursive' }}>Closet</div>
+          <div className="splash-tagline">Seu guarda-roupa digital</div>
+        </div>
+      )}
+
+      <div className="app-container">
+        {renderPage()}
+        <BottomNav currentPage={currentPage} onNavigate={setCurrentPage} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

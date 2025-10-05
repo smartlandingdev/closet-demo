@@ -1,120 +1,338 @@
 import React from 'react';
+import Header from '../components/Header';
+import {
+  IconUpload, IconSparkles, IconCalendar, IconCloset,
+  IconChevronRight, IconHistory, IconShirt, IconPants,
+  IconShoe, IconDress, IconJacket, IconBag, IconHanger
+} from '../components/Icons';
 
-const Home = () => {
-  const today = new Date().toLocaleDateString('pt-BR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long'
-  });
+const Home = ({ onNavigate }) => {
+  const weekDays = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB', 'DOM'];
+  const currentDay = new Date().getDay();
 
-  const weekDays = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+  const scheduledLooks = [
+    { day: 0, Icon: IconShirt, name: 'Office' },
+    { day: 1, Icon: IconDress, name: 'Casual' },
+    { day: 2, Icon: IconJacket, name: 'Chic' },
+    null,
+    null,
+    null,
+    null
+  ];
 
-  const outfitOfTheDay = {
-    image: '👔',
-    description: 'Casual Chic'
+  const pastLooks = [
+    {
+      id: 1,
+      date: '15 Set',
+      icons: [IconShirt, IconPants, IconShoe],
+      name: 'Business Casual',
+      uses: 5
+    },
+    {
+      id: 2,
+      date: '10 Set',
+      icons: [IconDress, IconShoe, IconBag],
+      name: 'Summer Dress',
+      uses: 3
+    },
+    {
+      id: 3,
+      date: '05 Set',
+      icons: [IconJacket, IconPants, IconShoe],
+      name: 'Street Style',
+      uses: 7
+    }
+  ];
+
+  const quickActions = [
+    {
+      id: 'upload',
+      label: 'Upload',
+      sublabel: 'Adicionar roupas',
+      Icon: IconUpload,
+      gradient: 'linear-gradient(135deg, #C2DC80, #A8C96A)',
+      color: '#1E3309'
+    },
+    {
+      id: 'ai-looks',
+      label: 'Criar Look IA',
+      sublabel: 'Combinações inteligentes',
+      Icon: IconSparkles,
+      gradient: 'linear-gradient(135deg, #EA9CAF, #D56989)',
+      color: '#FFFFFF'
+    },
+    {
+      id: 'planner',
+      label: 'Planejar',
+      sublabel: 'Organizar semana',
+      Icon: IconCalendar,
+      gradient: 'linear-gradient(135deg, #D56989, #B84A6B)',
+      color: '#FFFFFF'
+    },
+    {
+      id: 'closet',
+      label: 'Meu Closet',
+      sublabel: 'Ver todas as peças',
+      Icon: IconCloset,
+      gradient: 'linear-gradient(135deg, #C2DC80, #EA9CAF)',
+      color: '#1E3309'
+    }
+  ];
+
+  const handleActionClick = (actionId) => {
+    if (actionId === 'ai-looks') {
+      onNavigate && onNavigate('ai-looks');
+    } else if (actionId === 'closet') {
+      onNavigate && onNavigate('closet');
+    }
   };
 
   return (
-    <div className="page fade-in">
-      {/* Header */}
-      <header className="mb-xl">
-        <h1 className="mb-sm">Oi, Ana! 👋</h1>
-        <div className="flex items-center gap-md text-secondary">
-          <span>📅 {today}</span>
-          <span>🌤️ 24°C</span>
-        </div>
-      </header>
+    <div style={{ paddingBottom: '0' }}>
+      <Header />
 
-      {/* Look Sugerido */}
-      <section className="mb-xl">
-        <h2 className="mb-md">Look sugerido para hoje</h2>
-        <div className="card card-soft">
-          <div className="flex items-center gap-lg">
-            <div style={{
-              fontSize: '80px',
-              background: 'white',
-              borderRadius: 'var(--radius-lg)',
-              padding: 'var(--spacing-lg)',
+      <div className="page fade-in" style={{ paddingTop: '0' }}>
+        {/* Quick Actions Grid */}
+        <section style={{ marginTop: '24px', marginBottom: '32px' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '12px'
+          }}>
+            {quickActions.map((action) => (
+              <button
+                key={action.id}
+                onClick={() => handleActionClick(action.id)}
+                style={{
+                  background: action.gradient,
+                  border: 'none',
+                  borderRadius: '12px',
+                  padding: '20px',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  color: action.color,
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
+                  transition: 'all 0.2s ease',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
+                  minHeight: '120px'
+                }}
+                className="quick-action-btn"
+              >
+                <action.Icon size={28} color={action.color} />
+                <div>
+                  <div style={{ fontSize: '16px', fontWeight: '700', marginBottom: '4px' }}>
+                    {action.label}
+                  </div>
+                  <div style={{ fontSize: '12px', opacity: 0.8 }}>
+                    {action.sublabel}
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* Mini Agenda Semanal */}
+        <section style={{ marginBottom: '32px' }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '16px'
+          }}>
+            <h3 style={{ fontSize: '18px', fontWeight: '700' }}>
+              Agenda da Semana
+            </h3>
+            <button style={{
+              background: 'none',
+              border: 'none',
+              color: '#C2DC80',
+              fontSize: '14px',
+              fontWeight: '600',
+              cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              gap: '4px'
             }}>
-              {outfitOfTheDay.image}
-            </div>
-            <div className="flex-1">
-              <h3 className="mb-sm">{outfitOfTheDay.description}</h3>
-              <p className="text-secondary mb-md">
-                Perfeito para um dia tranquilo no escritório
-              </p>
-              <button className="btn btn-primary">
-                Usar esse look
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Sua Semana */}
-      <section className="mb-xl">
-        <h2 className="mb-md">Sua semana</h2>
-        <div style={{
-          display: 'flex',
-          gap: 'var(--spacing-md)',
-          overflowX: 'auto',
-          paddingBottom: 'var(--spacing-sm)'
-        }}>
-          {weekDays.map((day, index) => (
-            <div
-              key={day}
-              className="card"
-              style={{
-                minWidth: '80px',
-                textAlign: 'center',
-                cursor: 'pointer',
-                backgroundColor: index === 0 ? 'var(--color-primary)' : 'white'
-              }}
-            >
-              <div className="text-sm font-medium mb-sm">{day}</div>
-              <div style={{ fontSize: '32px', marginBottom: '8px' }}>
-                {index === 0 ? '👔' : index === 1 ? '👗' : ''}
-              </div>
-              <div className="text-xs text-secondary">
-                {index === 0 ? 'Planejado' : index === 1 ? 'Planejado' : 'Vazio'}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Insights */}
-      <section className="mb-xl">
-        <div className="card" style={{
-          backgroundColor: 'var(--color-blush)',
-          color: 'white'
-        }}>
-          <div className="flex justify-between items-center">
-            <div>
-              <div className="font-semibold mb-sm">💡 Insight da semana</div>
-              <p style={{ opacity: 0.9 }}>
-                3 peças sem uso há 2 meses
-              </p>
-            </div>
-            <button className="btn" style={{
-              backgroundColor: 'white',
-              color: 'var(--color-blush)'
-            }}>
-              Ver mais
+              Ver tudo
+              <IconChevronRight size={16} color="#C2DC80" />
             </button>
           </div>
-        </div>
-      </section>
 
-      {/* CTA */}
-      <section>
-        <button className="btn btn-accent" style={{ width: '100%' }}>
-          ✨ Criar novo look com IA
-        </button>
-      </section>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(7, 1fr)',
+            gap: '8px'
+          }}>
+            {weekDays.map((day, index) => {
+              const isToday = index === (currentDay === 0 ? 6 : currentDay - 1);
+              const look = scheduledLooks[index];
+
+              return (
+                <div
+                  key={day}
+                  style={{
+                    background: isToday
+                      ? 'linear-gradient(135deg, #C2DC80, #A8C96A)'
+                      : look
+                        ? 'rgba(194, 220, 128, 0.15)'
+                        : 'rgba(243, 238, 241, 0.5)',
+                    borderRadius: '10px',
+                    padding: '12px 8px',
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                    border: isToday ? '2px solid #C2DC80' : '1px solid rgba(255, 255, 255, 0.3)',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <div style={{
+                    fontSize: '10px',
+                    fontWeight: '700',
+                    marginBottom: '8px',
+                    color: isToday ? '#1E3309' : 'var(--color-text-secondary)',
+                    letterSpacing: '0.5px'
+                  }}>
+                    {day}
+                  </div>
+                  <div style={{
+                    marginBottom: '4px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    opacity: look ? 1 : 0.3
+                  }}>
+                    {look ? (
+                      <look.Icon size={28} color={isToday ? '#1E3309' : '#C2DC80'} />
+                    ) : (
+                      <IconHanger size={28} color="var(--color-text-secondary)" />
+                    )}
+                  </div>
+                  <div style={{
+                    fontSize: '9px',
+                    fontWeight: '600',
+                    color: isToday ? '#1E3309' : 'var(--color-text-secondary)'
+                  }}>
+                    {look ? look.name : '-'}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Looks Usados no Passado */}
+        <section style={{ marginBottom: '32px' }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '16px'
+          }}>
+            <h3 style={{ fontSize: '18px', fontWeight: '700' }}>
+              Usar Novamente
+            </h3>
+            <button style={{
+              background: 'none',
+              border: 'none',
+              color: '#EA9CAF',
+              fontSize: '14px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}>
+              Histórico
+              <IconHistory size={16} color="#EA9CAF" />
+            </button>
+          </div>
+
+          <div style={{ display: 'grid', gap: '12px' }}>
+            {pastLooks.map((look) => (
+              <div
+                key={look.id}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.7)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '12px',
+                  padding: '16px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px'
+                }}
+                className="past-look-card"
+              >
+                {/* Look Preview */}
+                <div style={{
+                  display: 'flex',
+                  gap: '4px',
+                  flexShrink: 0
+                }}>
+                  {look.icons.map((ItemIcon, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        width: '44px',
+                        height: '44px',
+                        background: 'linear-gradient(135deg, rgba(194, 220, 128, 0.1), rgba(234, 156, 175, 0.1))',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <ItemIcon size={24} color="#C2DC80" />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Look Info */}
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: '15px', fontWeight: '700', marginBottom: '4px' }}>
+                    {look.name}
+                  </div>
+                  <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>
+                    Último uso: {look.date} · Usado {look.uses}x
+                  </div>
+                </div>
+
+                {/* Action */}
+                <button style={{
+                  padding: '8px 16px',
+                  background: 'linear-gradient(135deg, #EA9CAF, #D56989)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  flexShrink: 0
+                }}>
+                  Reusar
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <style jsx>{`
+        .quick-action-btn:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .past-look-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+          border-color: rgba(194, 220, 128, 0.5);
+        }
+      `}</style>
     </div>
   );
 };
