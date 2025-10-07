@@ -4,7 +4,6 @@ import { IconHome, IconCommunity, IconShop, IconSparkles, IconUser } from './Ico
 const BottomNav = ({ currentPage, onNavigate }) => {
   const navItems = [
     { id: 'home', label: 'Home', Icon: IconHome },
-    { id: 'community', label: 'Comunidade', Icon: IconCommunity },
     { id: 'marketplace', label: 'Brechó', Icon: IconShop },
     { id: 'ai-looks', label: 'IA Looks', Icon: IconSparkles },
     { id: 'profile', label: 'Perfil', Icon: IconUser }

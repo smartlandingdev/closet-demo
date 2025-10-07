@@ -4,23 +4,23 @@ const Closet = () => {
   const [activeCategory, setActiveCategory] = useState('all');
 
   const categories = [
-    { id: 'all', label: 'Todas', icon: '✨', gradient: 'linear-gradient(135deg, #C2DC80, #EA9CAF)' },
-    { id: 'tops', label: 'Tops', icon: '👔', gradient: 'linear-gradient(135deg, #C2DC80, #A8C96A)' },
-    { id: 'bottoms', label: 'Bottoms', icon: '👖', gradient: 'linear-gradient(135deg, #EA9CAF, #D56989)' },
-    { id: 'dresses', label: 'Vestidos', icon: '👗', gradient: 'linear-gradient(135deg, #D56989, #B84A6B)' },
-    { id: 'shoes', label: 'Calçados', icon: '👟', gradient: 'linear-gradient(135deg, #C2DC80, #EA9CAF)' },
-    { id: 'accessories', label: 'Acessórios', icon: '👜', gradient: 'linear-gradient(135deg, #EA9CAF, #C2DC80)' }
+    { id: 'all', label: 'Todas', gradient: 'linear-gradient(135deg, #C2DC80, #EA9CAF)' },
+    { id: 'tops', label: 'Tops', gradient: 'linear-gradient(135deg, #C2DC80, #A8C96A)' },
+    { id: 'bottoms', label: 'Bottoms', gradient: 'linear-gradient(135deg, #EA9CAF, #D56989)' },
+    { id: 'dresses', label: 'Vestidos', gradient: 'linear-gradient(135deg, #D56989, #B84A6B)' },
+    { id: 'shoes', label: 'Calçados', gradient: 'linear-gradient(135deg, #C2DC80, #EA9CAF)' },
+    { id: 'accessories', label: 'Acessórios', gradient: 'linear-gradient(135deg, #EA9CAF, #C2DC80)' }
   ];
 
   const items = [
-    { id: 1, emoji: '👔', name: 'Camisa Branca', category: 'tops', color: 'Branco', season: 'Todas', uses: 24 },
-    { id: 2, emoji: '👗', name: 'Vestido Floral', category: 'dresses', color: 'Rosa', season: 'Verão', uses: 12 },
-    { id: 3, emoji: '👖', name: 'Calça Jeans', category: 'bottoms', color: 'Azul', season: 'Todas', uses: 18 },
-    { id: 4, emoji: '👟', name: 'Tênis Branco', category: 'shoes', color: 'Branco', season: 'Todas', uses: 30 },
-    { id: 5, emoji: '🧥', name: 'Blazer', category: 'tops', color: 'Preto', season: 'Inverno', uses: 15 },
-    { id: 6, emoji: '👜', name: 'Bolsa Couro', category: 'accessories', color: 'Marrom', season: 'Todas', uses: 20 },
-    { id: 7, emoji: '👚', name: 'Blusa Verde', category: 'tops', color: 'Verde', season: 'Primavera', uses: 8 },
-    { id: 8, emoji: '🩳', name: 'Short Jeans', category: 'bottoms', color: 'Azul', season: 'Verão', uses: 10 }
+    { id: 1, bgColor: '#C2DC80', name: 'Camisa Branca', category: 'tops', color: 'Branco', season: 'Todas', uses: 24 },
+    { id: 2, bgColor: '#FFB5C5', name: 'Vestido Floral', category: 'dresses', color: 'Rosa', season: 'Verão', uses: 12 },
+    { id: 3, bgColor: '#B4A8D3', name: 'Calça Jeans', category: 'bottoms', color: 'Azul', season: 'Todas', uses: 18 },
+    { id: 4, bgColor: '#FFDAB9', name: 'Tênis Branco', category: 'shoes', color: 'Branco', season: 'Todas', uses: 30 },
+    { id: 5, bgColor: '#A8C96A', name: 'Blazer', category: 'tops', color: 'Preto', season: 'Inverno', uses: 15 },
+    { id: 6, bgColor: '#D56989', name: 'Bolsa Couro', category: 'accessories', color: 'Marrom', season: 'Todas', uses: 20 },
+    { id: 7, bgColor: '#C2DC80', name: 'Blusa Verde', category: 'tops', color: 'Verde', season: 'Primavera', uses: 8 },
+    { id: 8, bgColor: '#EA9CAF', name: 'Short Jeans', category: 'bottoms', color: 'Azul', season: 'Verão', uses: 10 }
   ];
 
   const filteredItems = activeCategory === 'all'
@@ -37,28 +37,24 @@ const Closet = () => {
           Meu Closet Digital
         </h1>
 
-        <div className="card" style={{
+        <div style={{
           background: activeC?.gradient || 'linear-gradient(135deg, #C2DC80, #EA9CAF)',
           border: 'none',
-          padding: '24px',
+          borderRadius: '12px',
+          padding: '28px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          color: 'white'
+          color: 'white',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)'
         }}>
           <div>
-            <div style={{ fontSize: '40px', fontWeight: '800', marginBottom: '4px' }}>
+            <div style={{ fontSize: '48px', fontWeight: '800', marginBottom: '4px' }}>
               {filteredItems.length}
             </div>
-            <div style={{ fontSize: '14px', opacity: 0.9 }}>
+            <div style={{ fontSize: '14px', opacity: 0.95, fontWeight: '600' }}>
               {activeCategory === 'all' ? 'peças no total' : 'peças nesta categoria'}
             </div>
-          </div>
-          <div style={{
-            fontSize: '64px',
-            opacity: 0.3
-          }}>
-            {activeC?.icon || '✨'}
           </div>
         </div>
       </header>
@@ -79,19 +75,24 @@ const Closet = () => {
             <button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
-              className={`btn btn-sm ${isActive ? '' : 'btn-secondary'}`}
               style={{
                 whiteSpace: 'nowrap',
-                background: isActive ? category.gradient : 'transparent',
-                color: isActive ? 'white' : 'var(--color-secondary)',
-                border: isActive ? 'none' : '2px solid var(--color-secondary)',
+                background: isActive
+                  ? category.gradient
+                  : 'rgba(255, 255, 255, 0.7)',
+                backdropFilter: 'blur(20px)',
+                color: isActive ? 'white' : 'var(--color-text)',
+                border: isActive ? '2px solid rgba(255, 255, 255, 0.5)' : '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '12px',
                 padding: '12px 20px',
                 fontSize: '14px',
-                fontWeight: '600',
-                boxShadow: isActive ? '0 8px 24px rgba(194, 220, 128, 0.3)' : 'none'
+                fontWeight: '700',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: isActive ? '0 8px 20px rgba(0, 0, 0, 0.15)' : 'none'
               }}
             >
-              {category.icon} {category.label}
+              {category.label}
             </button>
           );
         })}
@@ -103,14 +104,18 @@ const Closet = () => {
           {filteredItems.map((item, index) => (
             <div
               key={item.id}
-              className="card glow-on-hover"
               style={{
                 textAlign: 'center',
-                padding: '24px',
+                padding: '16px',
                 cursor: 'pointer',
                 position: 'relative',
-                overflow: 'visible'
+                background: 'rgba(255, 255, 255, 0.7)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '12px',
+                transition: 'all 0.2s ease'
               }}
+              className="closet-item-card"
             >
               {/* Uses Badge */}
               <div style={{
@@ -120,30 +125,30 @@ const Closet = () => {
                 background: 'linear-gradient(135deg, #C2DC80, #A8C96A)',
                 color: '#1E3309',
                 borderRadius: '20px',
-                padding: '4px 12px',
+                padding: '5px 12px',
                 fontSize: '11px',
                 fontWeight: '700',
-                boxShadow: '0 4px 12px rgba(194, 220, 128, 0.3)'
+                boxShadow: '0 2px 8px rgba(194, 220, 128, 0.3)',
+                zIndex: 2
               }}>
                 {item.uses}x
               </div>
 
-              {/* Item Emoji */}
+              {/* Item Placeholder */}
               <div style={{
-                fontSize: '80px',
+                height: '140px',
                 marginBottom: '16px',
-                filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1))',
-                transition: 'transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)'
-              }}>
-                {item.emoji}
-              </div>
+                background: item.bgColor,
+                borderRadius: '10px',
+                opacity: 0.4
+              }} />
 
               {/* Item Info */}
               <h3 style={{
-                fontSize: '16px',
+                fontSize: '15px',
                 fontWeight: '700',
                 marginBottom: '12px',
-                color: 'var(--color-text-primary)'
+                color: 'var(--color-text)'
               }}>
                 {item.name}
               </h3>
@@ -155,15 +160,23 @@ const Closet = () => {
                 justifyContent: 'center',
                 flexWrap: 'wrap'
               }}>
-                <span className="badge" style={{
+                <span style={{
                   fontSize: '10px',
-                  padding: '4px 10px'
+                  padding: '5px 10px',
+                  background: 'linear-gradient(135deg, rgba(194, 220, 128, 0.15), rgba(234, 156, 175, 0.1))',
+                  borderRadius: '8px',
+                  fontWeight: '600',
+                  color: 'var(--color-text-secondary)'
                 }}>
                   {item.color}
                 </span>
-                <span className="badge" style={{
+                <span style={{
                   fontSize: '10px',
-                  padding: '4px 10px'
+                  padding: '5px 10px',
+                  background: 'linear-gradient(135deg, rgba(194, 220, 128, 0.15), rgba(234, 156, 175, 0.1))',
+                  borderRadius: '8px',
+                  fontWeight: '600',
+                  color: 'var(--color-text-secondary)'
                 }}>
                   {item.season}
                 </span>
@@ -172,16 +185,44 @@ const Closet = () => {
           ))}
         </div>
       ) : (
-        <div className="empty-state">
-          <div className="empty-state-icon">📦</div>
-          <h3 style={{ marginBottom: '12px', fontSize: '20px' }}>
+        <div style={{
+          textAlign: 'center',
+          padding: 'var(--spacing-xl) 0',
+          maxWidth: '400px',
+          margin: '0 auto'
+        }}>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            borderRadius: '50%',
+            background: 'var(--color-magnolia)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto var(--spacing-lg)',
+            fontSize: '32px'
+          }}>
+            📦
+          </div>
+          <h3 style={{ marginBottom: '12px', fontSize: '20px', fontWeight: '700' }}>
             Nenhuma peça nesta categoria
           </h3>
-          <p className="text-secondary" style={{ marginBottom: '24px' }}>
+          <p className="text-secondary" style={{ marginBottom: '24px', fontSize: '14px' }}>
             Adicione novas peças ao seu closet digital
           </p>
-          <button className="btn btn-primary">
-            + Adicionar primeira peça
+          <button style={{
+            padding: '14px 28px',
+            background: 'linear-gradient(135deg, #C2DC80, #A8C96A)',
+            color: '#1E3309',
+            border: 'none',
+            borderRadius: '12px',
+            fontSize: '14px',
+            fontWeight: '700',
+            cursor: 'pointer',
+            boxShadow: '0 4px 16px rgba(194, 220, 128, 0.3)',
+            transition: 'all 0.2s ease'
+          }}>
+            Adicionar primeira peça
           </button>
         </div>
       )}
@@ -192,8 +233,10 @@ const Closet = () => {
       </button>
 
       <style jsx>{`
-        .card:hover div:nth-child(2) {
-          transform: scale(1.1) rotate(5deg);
+        .closet-item-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+          border-color: rgba(194, 220, 128, 0.5);
         }
       `}</style>
     </div>

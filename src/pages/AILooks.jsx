@@ -7,16 +7,16 @@ const AILooks = () => {
   });
 
   const occasions = [
-    { value: 'casual', label: 'Casual', icon: '👕', gradient: 'linear-gradient(135deg, #C2DC80, #A8C96A)' },
-    { value: 'work', label: 'Trabalho', icon: '💼', gradient: 'linear-gradient(135deg, #EA9CAF, #D56989)' },
-    { value: 'party', label: 'Festa', icon: '🎉', gradient: 'linear-gradient(135deg, #D56989, #B84A6B)' },
-    { value: 'sport', label: 'Esporte', icon: '⚽', gradient: 'linear-gradient(135deg, #C2DC80, #EA9CAF)' }
+    { value: 'casual', label: 'Casual', gradient: 'linear-gradient(135deg, #C2DC80, #A8C96A)' },
+    { value: 'work', label: 'Trabalho', gradient: 'linear-gradient(135deg, #EA9CAF, #D56989)' },
+    { value: 'party', label: 'Festa', gradient: 'linear-gradient(135deg, #D56989, #B84A6B)' },
+    { value: 'sport', label: 'Esporte', gradient: 'linear-gradient(135deg, #C2DC80, #EA9CAF)' }
   ];
 
   const weather = [
-    { value: 'sunny', label: 'Ensolarado', icon: '☀️' },
-    { value: 'rainy', label: 'Chuvoso', icon: '🌧️' },
-    { value: 'cold', label: 'Frio', icon: '❄️' }
+    { value: 'sunny', label: 'Ensolarado' },
+    { value: 'rainy', label: 'Chuvoso' },
+    { value: 'cold', label: 'Frio' }
   ];
 
   const currentOccasion = occasions.find(o => o.value === filters.occasion);
@@ -29,18 +29,18 @@ const AILooks = () => {
           IA Looks
         </h1>
         <p className="text-secondary" style={{ fontSize: '15px' }}>
-          Deixe a IA criar combinações perfeitas para você ✨
+          Deixe a IA criar combinações perfeitas para você
         </p>
       </header>
 
       {/* Filters */}
       <section className="mb-xl">
-        <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: '600' }}>
-          🎯 Ocasião
+        <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: '700' }}>
+          Ocasião
         </h3>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+          gridTemplateColumns: 'repeat(2, 1fr)',
           gap: '12px',
           marginBottom: '28px'
         }}>
@@ -51,55 +51,76 @@ const AILooks = () => {
               <button
                 key={occ.value}
                 onClick={() => setFilters({ ...filters, occasion: occ.value })}
-                className="card"
                 style={{
-                  background: isActive ? occ.gradient : 'rgba(255, 255, 255, 0.6)',
-                  border: isActive ? 'none' : '1px solid rgba(255, 255, 255, 0.3)',
-                  padding: '20px 12px',
+                  background: isActive
+                    ? occ.gradient
+                    : 'rgba(255, 255, 255, 0.7)',
+                  backdropFilter: 'blur(20px)',
+                  border: isActive ? '2px solid rgba(255, 255, 255, 0.5)' : '1px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '12px',
+                  padding: '20px 16px',
                   cursor: 'pointer',
                   textAlign: 'center',
-                  color: isActive ? 'white' : 'var(--color-text-primary)',
-                  fontWeight: isActive ? '700' : '600',
-                  boxShadow: isActive ? '0 12px 32px rgba(194, 220, 128, 0.4)' : '0 4px 12px rgba(30, 51, 9, 0.08)',
-                  transform: isActive ? 'scale(1.05)' : 'scale(1)'
+                  color: isActive ? 'white' : 'var(--color-text)',
+                  fontWeight: '700',
+                  fontSize: '14px',
+                  boxShadow: isActive ? '0 8px 20px rgba(0, 0, 0, 0.15)' : 'none',
+                  transition: 'all 0.2s ease'
                 }}
+                className="occasion-btn"
               >
-                <div style={{ fontSize: '32px', marginBottom: '8px' }}>{occ.icon}</div>
-                <div style={{ fontSize: '13px' }}>{occ.label}</div>
+                {occ.label}
               </button>
             );
           })}
         </div>
 
-        <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: '600' }}>
-          🌤️ Clima
+        <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: '700' }}>
+          Clima
         </h3>
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          {weather.map(w => (
-            <button
-              key={w.value}
-              className={`btn btn-sm ${filters.weather === w.value ? 'btn-primary' : 'btn-secondary'}`}
-              onClick={() => setFilters({ ...filters, weather: w.value })}
-              style={{ padding: '12px 20px', fontSize: '14px', fontWeight: '600' }}
-            >
-              {w.icon} {w.label}
-            </button>
-          ))}
+          {weather.map(w => {
+            const isActive = filters.weather === w.value;
+
+            return (
+              <button
+                key={w.value}
+                onClick={() => setFilters({ ...filters, weather: w.value })}
+                style={{
+                  padding: '12px 20px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  border: isActive ? '2px solid #C2DC80' : '1px solid rgba(255, 255, 255, 0.3)',
+                  background: isActive
+                    ? 'linear-gradient(135deg, rgba(194, 220, 128, 0.15), rgba(234, 156, 175, 0.1))'
+                    : 'rgba(255, 255, 255, 0.7)',
+                  backdropFilter: 'blur(20px)',
+                  color: 'var(--color-text)',
+                  borderRadius: '12px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                {w.label}
+              </button>
+            );
+          })}
         </div>
       </section>
 
       {/* Look Preview - Hero Card */}
       <section className="mb-xl">
         <div
-          className="card glow-on-hover"
           style={{
             background: currentOccasion?.gradient,
             border: 'none',
+            borderRadius: '12px',
             padding: '40px 32px',
             textAlign: 'center',
             color: 'white',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)'
           }}
         >
           {/* Decorative Background Pattern */}
@@ -114,7 +135,7 @@ const AILooks = () => {
             filter: 'blur(80px)'
           }} />
 
-          <h2 style={{ fontSize: '28px', marginBottom: '32px', position: 'relative', zIndex: 1 }}>
+          <h2 style={{ fontSize: '28px', fontWeight: '700', marginBottom: '32px', position: 'relative', zIndex: 1 }}>
             Casual Chic
           </h2>
 
@@ -122,27 +143,41 @@ const AILooks = () => {
           <div style={{
             display: 'flex',
             justifyContent: 'center',
-            gap: '20px',
+            gap: '16px',
             marginBottom: '32px',
             flexWrap: 'wrap',
             position: 'relative',
             zIndex: 1
           }}>
-            {['👔', '👖', '👟'].map((item, index) => (
+            {[
+              { color: '#FFB5C5', label: 'Blusa' },
+              { color: '#C2DC80', label: 'Calça' },
+              { color: '#B4A8D3', label: 'Sapato' }
+            ].map((item, index) => (
               <div
                 key={index}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.9)',
-                  borderRadius: '24px',
-                  padding: '24px',
-                  fontSize: '64px',
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  borderRadius: '16px',
+                  padding: '20px',
+                  width: '90px',
+                  height: '90px',
                   backdropFilter: 'blur(10px)',
-                  boxShadow: '0 16px 48px rgba(0, 0, 0, 0.2)',
-                  animation: `scaleIn 0.5s ${index * 0.1}s backwards`,
-                  border: '2px solid rgba(255, 255, 255, 0.5)'
+                  boxShadow: '0 8px 20px rgba(0, 0, 0, 0.15)',
+                  border: '2px solid rgba(255, 255, 255, 0.5)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'relative'
                 }}
               >
-                {item}
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  background: item.color,
+                  borderRadius: '12px',
+                  opacity: 0.5
+                }} />
               </div>
             ))}
           </div>
@@ -167,42 +202,51 @@ const AILooks = () => {
             zIndex: 1
           }}>
             <button
-              className="btn"
               style={{
-                background: 'rgba(255, 255, 255, 0.9)',
-                color: currentOccasion?.value === 'casual' ? '#C2DC80' : '#EA9CAF',
+                background: 'rgba(255, 255, 255, 0.95)',
+                color: currentOccasion?.value === 'casual' ? '#1E3309' : '#EA9CAF',
                 fontWeight: '700',
                 padding: '14px 28px',
-                border: 'none'
+                border: 'none',
+                borderRadius: '12px',
+                fontSize: '14px',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
               }}
             >
-              ♡ Salvar
+              Salvar
             </button>
             <button
-              className="btn"
               style={{
                 background: 'rgba(255, 255, 255, 0.2)',
                 backdropFilter: 'blur(10px)',
                 color: 'white',
                 border: '2px solid rgba(255, 255, 255, 0.5)',
                 fontWeight: '700',
-                padding: '14px 28px'
+                padding: '14px 28px',
+                borderRadius: '12px',
+                fontSize: '14px',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
               }}
             >
-              🔄 Gerar outro
+              Gerar outro
             </button>
             <button
-              className="btn"
               style={{
                 background: 'rgba(255, 255, 255, 0.2)',
                 backdropFilter: 'blur(10px)',
                 color: 'white',
                 border: '2px solid rgba(255, 255, 255, 0.5)',
                 fontWeight: '700',
-                padding: '14px 28px'
+                padding: '14px 28px',
+                borderRadius: '12px',
+                fontSize: '14px',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
               }}
             >
-              📅 Agendar
+              Agendar
             </button>
           </div>
         </div>
@@ -210,19 +254,46 @@ const AILooks = () => {
 
       {/* Try-On Section */}
       <section className="mb-xl">
-        <div className="card card-soft" style={{
+        <div style={{
           padding: '32px',
-          textAlign: 'center'
+          textAlign: 'center',
+          background: 'rgba(255, 255, 255, 0.7)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '12px'
         }}>
-          <div style={{ fontSize: '64px', marginBottom: '20px' }}>🪞</div>
-          <h3 style={{ fontSize: '20px', marginBottom: '12px' }}>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, rgba(194, 220, 128, 0.2), rgba(234, 156, 175, 0.2))',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 20px',
+            fontSize: '40px'
+          }}>
+            👤
+          </div>
+          <h3 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '12px' }}>
             Experimentar Virtualmente
           </h3>
           <p className="text-secondary" style={{ marginBottom: '24px', fontSize: '14px' }}>
             Veja como ficaria esse look em você usando AR
           </p>
-          <button className="btn btn-accent btn-lg" style={{ padding: '16px 32px' }}>
-            ✨ Abrir Try-On Virtual
+          <button style={{
+            padding: '16px 32px',
+            background: 'linear-gradient(135deg, #EA9CAF, #D56989)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '12px',
+            fontSize: '14px',
+            fontWeight: '700',
+            cursor: 'pointer',
+            boxShadow: '0 4px 16px rgba(234, 156, 175, 0.3)',
+            transition: 'all 0.2s ease'
+          }}>
+            Abrir Try-On Virtual
           </button>
         </div>
       </section>
@@ -230,9 +301,9 @@ const AILooks = () => {
       {/* Swipe Indicator */}
       <div style={{
         textAlign: 'center',
-        background: 'linear-gradient(135deg, rgba(194, 220, 128, 0.1), rgba(234, 156, 175, 0.1))',
-        backdropFilter: 'blur(10px)',
-        borderRadius: '20px',
+        background: 'linear-gradient(135deg, rgba(194, 220, 128, 0.15), rgba(234, 156, 175, 0.1))',
+        backdropFilter: 'blur(20px)',
+        borderRadius: '12px',
         padding: '20px',
         border: '1px solid rgba(255, 255, 255, 0.3)'
       }}>
@@ -242,9 +313,15 @@ const AILooks = () => {
           fontWeight: '600',
           margin: 0
         }}>
-          👈 Deslize para ver mais combinações 👉
+          Deslize para ver mais combinações
         </p>
       </div>
+
+      <style jsx>{`
+        .occasion-btn:hover {
+          transform: translateY(-2px);
+        }
+      `}</style>
     </div>
   );
 };

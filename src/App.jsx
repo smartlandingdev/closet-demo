@@ -4,7 +4,6 @@ import Home from './pages/Home';
 import Closet from './pages/Closet';
 import AILooks from './pages/AILooks';
 import Marketplace from './pages/Marketplace';
-import Community from './pages/Community';
 import Profile from './pages/Profile';
 
 function App() {
@@ -27,8 +26,6 @@ function App() {
         return <AILooks />;
       case 'marketplace':
         return <Marketplace />;
-      case 'community':
-        return <Community />;
       case 'profile':
         return <Profile />;
       default:
@@ -40,7 +37,7 @@ function App() {
     <>
       {showSplash && (
         <div className="splash-screen">
-          <div className="splash-logo" style={{ fontFamily: 'Pacifico, cursive' }}>Closet</div>
+          <div className="splash-logo" style={{ fontFamily: 'Pacifico, cursive' }}>UCloset</div>
           <div className="splash-tagline">Seu guarda-roupa digital</div>
         </div>
       )}
